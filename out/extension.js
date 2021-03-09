@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
+const generateComponent_1 = require("./generateComponent");
 function activate(context) {
     const config = vscode.commands.registerCommand('gf-wx-template.component', function (param) {
         // 获取文件夹绝对路径
@@ -15,13 +16,11 @@ function activate(context) {
             if (!value)
                 return;
             if (filePath.includes('.')) {
-                return vscode.window.showInformationMessage('不能在文件里面创建组件');
+                return vscode.window.showErrorMessage('不能在文件里面创建组件');
             }
             const componentName = value;
-            const fullPath = `${filePath}/${componentName}`;
-            console.log('路径', fullPath);
             // 生成模板代码
-            // generateComponent(componentName, fullPath, ComponentType.FUNCTIONAL_COMP);
+            generateComponent_1.generateComponent(filePath, componentName);
         });
     });
     context.subscriptions.push(config);
